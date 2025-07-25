@@ -1,8 +1,16 @@
 #root {
-  max-width: 1280px;
   margin: 0 auto;
   padding: 2rem;
   text-align: center;
+  width: 100%;
+  min-height: 100vh;
+  /* 添加display属性使place-items生效 */
+  display: grid;
+  place-items: center;
+  /* 确保没有最大宽度限制 */
+  max-width: none;
+  /* 确保padding不会导致内容溢出 */
+  box-sizing: border-box;
 }
 
 .logo {
