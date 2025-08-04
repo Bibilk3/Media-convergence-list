@@ -107,7 +107,7 @@ const UpdateRankForm = () => {
                             
                             // 不能选择未来的月份,也不能选择本月
                             const endOfCurrentMonth = moment().endOf('month').subtract(1,'month').toDate();
-                            console.log(endOfCurrentMonth);
+                            //console.log(endOfCurrentMonth);
                             if (current > endOfCurrentMonth) {
                                 return true;
                             }

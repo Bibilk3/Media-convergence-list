@@ -7,6 +7,7 @@ import 'antd/dist/reset.css';
 
 import UpdateRankPage from './pages/UpdateRankPage';
 import SubjectManagementPage from './pages/SubjectManagementPage';
+import EditBoardPage from './pages/EditBoardPage';
 
 const {Header,Content,Footer}=Layout;
 
@@ -30,6 +31,9 @@ function App(){
             <Menu.Item key="/subject-management">
               <Link to="/subject-management">参评主体管理</Link>
             </Menu.Item>
+            <Menu.Item key="/edit-board">
+              <Link to="/edit-board">编辑榜单</Link>
+            </Menu.Item>
             {/* 其他菜单可在此继续添加 */}
           </Menu>
         </Header>
@@ -40,6 +44,8 @@ function App(){
             <Route path="/update-rank" element={<UpdateRankPage />} />
             {/* 添加参评主体管理路由 */}
             <Route path="/subject-management" element={<SubjectManagementPage />} />
+
+            <Route path="/edit-board" element={<EditBoardPage />} />
             {/* 默认路由跳转 */}
             <Route path="/" element={<UpdateRankPage />} />
           </Routes>
