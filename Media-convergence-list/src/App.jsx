@@ -8,6 +8,8 @@ import 'antd/dist/reset.css';
 import UpdateRankPage from './pages/UpdateRankPage';
 import SubjectManagementPage from './pages/SubjectManagementPage';
 import EditBoardPage from './pages/EditBoardPage';
+import RankPage from './pages/RankPage';
+import RankImagePage from './pages/RankDisplayPage';
 
 const {Header,Content,Footer}=Layout;
 
@@ -34,6 +36,12 @@ function App(){
             <Menu.Item key="/edit-board">
               <Link to="/edit-board">编辑榜单</Link>
             </Menu.Item>
+            <Menu.Item key="/rank">
+              <Link to="/rank">榜单数据</Link>
+            </Menu.Item>
+            <Menu.Item key="/rank-image">
+              <Link to="/rank-image">榜单图片</Link>
+            </Menu.Item>
             {/* 其他菜单可在此继续添加 */}
           </Menu>
         </Header>
@@ -46,6 +54,10 @@ function App(){
             <Route path="/subject-management" element={<SubjectManagementPage />} />
 
             <Route path="/edit-board" element={<EditBoardPage />} />
+
+            <Route path="/rank" element={<RankPage />} />
+
+            <Route path="/rank-image" element={<RankImagePage />} />
             {/* 默认路由跳转 */}
             <Route path="/" element={<UpdateRankPage />} />
           </Routes>

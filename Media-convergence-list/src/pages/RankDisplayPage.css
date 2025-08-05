@@ -1,0 +1,28 @@
+.rank-display-container {
+  max-width: 1200px;
+  margin: 24px auto;
+  padding: 0 16px;
+}
+
+.ant-tabs {
+  margin-top: 20px;
+}
+
+.ant-tabs-content {
+  padding: 20px;
+  background-color: #fff;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+}
+
+/* 响应式调整 */
+@media (max-width: 768px) {
+  .rank-display-container {
+    padding: 0 8px;
+  }
+  
+  .ant-tabs-content {
+    padding: 10px;
+  }
+}
+    
