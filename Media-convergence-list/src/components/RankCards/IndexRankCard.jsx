@@ -2,9 +2,9 @@ import { Card, Tag } from 'antd';
 import { UpOutlined, DownOutlined, ArrowUpOutlined } from '@ant-design/icons';
 import './RankCards.css'; // 单独样式文件
 
-const IndexRankCard = () => {
+/* const IndexRankCard = () => {
   // 模拟数据（可从 props 传入）
-  const rankData = {
+  const rankdata = {
     title: '融媒体公众号指数榜',
     subTitle: '[类别名称] 分榜',
     period: '周榜 2024.09.02-2023.09.12',
@@ -15,17 +15,28 @@ const IndexRankCard = () => {
       { rank: 4, account: '公众号名称', score: 731.08, trend: '' },
       { rank: 5, account: '公众号名称', score: 731.08, trend: '' },
     ],
-  };
-
+  }; */
+// 从props接收数据
+const IndexRankCard = ({ data }) => {
+  // 如果没有数据，显示默认提示
+  if (!data || !data.list || data.list.length === 0) {
+    return (
+      <Card className="rank-card" bordered={false} style={{ width: 260, padding: 20 }}>
+        <div style={{ textAlign: 'center', color: '#999' }}>
+          暂无数据，请先生成榜单
+        </div>
+      </Card>
+    );
+  }
   return (
     <Card className="rank-card" bordered={false} style={{ width: 260 }}>
       <div className="card-header">
-        <div className="main-title">{rankData.title}</div>
-        <div className="sub-title">{rankData.subTitle}</div>
-        <div className="period">{rankData.period}</div>
+        <div className="main-title">{data.title}</div>
+        <div className="sub-title">{data.subTitle}</div>
+        <div className="period">{data.period}</div>
       </div>
       <div className="rank-list">
-        {rankData.list.map((item, idx) => (
+        {data.list.map((item, idx) => (
           <div className="rank-item" key={idx}>
             <div className="rank-badge" style={{ backgroundColor: badgeColor(idx) }}>
               {item.rank}

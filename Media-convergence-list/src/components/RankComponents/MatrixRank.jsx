@@ -2,6 +2,8 @@ import { Table, Select, Button, Modal } from 'antd';
 import { DownloadOutlined, LinkOutlined, PictureOutlined, QuestionCircleOutlined } from '@ant-design/icons';
 import { useState } from 'react';
 import { RankModal } from '../RankModal';
+// 1. 引入全局状态
+import { useRankStore } from '../../store/rankStore';
 
 const { Option } = Select;
 
@@ -21,6 +23,9 @@ const mockTableData = [
 export const MatrixRank = () => {
   const [modalVisible, setModalVisible] = useState(false);
   const [rankConfig, setRankConfig] = useState({ switch: false, description: '' });
+  
+  // 2. 获取全局状态的更新方法
+  const { updateSharedData } = useRankStore();
 
   const handleOpenModal = () => {
     setModalVisible(true);
@@ -28,6 +33,30 @@ export const MatrixRank = () => {
 
   const handleSaveConfig = (config) => {
     setRankConfig(config);
+  };
+
+  // 3. 修正函数定义，移除参数中的updateRankData
+  const handleGenerateCard = () => {
+    // 矩阵榜数据转换
+    const cardFormatData = {
+      title: '全媒体矩阵指数榜',
+      subTitle: '月榜 2024.09',
+      list: mockTableData.map(item => ({
+        rank: item.index,
+        name: item.subject, // 矩阵榜用主体名称
+        score: item.contribution,
+        trend: item.index <= 3 ? (item.index === 1 ? 'up' : 'down') : ''
+      }))
+    };
+  
+    // 4. 调用全局状态方法，指定类型为"matrix"（矩阵榜标识）
+    updateSharedData('matrix', cardFormatData);
+    
+    // 提示用户切换到榜单图片页
+    Modal.success({
+      title: '数据已同步',
+      content: '请前往"榜单图片"页面查看矩阵榜',
+    });
   };
 
   const columns = [
@@ -50,7 +79,13 @@ export const MatrixRank = () => {
         </Select>
         <Button icon={<DownloadOutlined />} type="primary">导出当前榜单</Button>
         <Button icon={<LinkOutlined />} type="default">复制榜单链接</Button>
-        <Button icon={<PictureOutlined />} type="default">生成榜单图片</Button>
+        <Button 
+          icon={<PictureOutlined />} 
+          type="default" 
+          onClick={handleGenerateCard} // 绑定点击事件
+        >
+          生成榜单图片
+        </Button>
         <Button 
           icon={<QuestionCircleOutlined />} 
           type="default" 

@@ -1,51 +1,64 @@
-import { Table, Select, Button, Modal } from 'antd';
+import { Table, Select, Button, DatePicker, Modal } from 'antd';
 import { DownloadOutlined, LinkOutlined, PictureOutlined, QuestionCircleOutlined } from '@ant-design/icons';
 import { useState } from 'react';
 import { RankModal } from '../RankModal';
-// 1. 引入全局状态
-import { useRankStore } from '../../store/rankStore';
+import { useRankStore } from '../../store/rankStore'; // 引入全局状态
 
 const { Option } = Select;
+const { RangePicker } = DatePicker;
 
-// 模拟数据
+// 模拟表格数据
 const mockTableData = [
   {
     key: '1',
     index: 1,
     subject: '宁波工会',
     account: '宁波工会公众号',
-    title: '稿件标题稿件标题稿件标题稿件标题稿件标题稿件标题稿件标题稿件标题',
+    contribution: 92.12,
+    score1: 198.0,
+    score2: 92.12,
+    score3: 92.12,
+    score4: 198.0,
   },
   {
     key: '2',
     index: 2,
-    subject: '宁工会',
-    account: '宁工会公众号',
-    title: '稿件标题稿件标题稿件标题稿件标题',
+    subject: '杭州工会',
+    account: '杭州工会公众号',
+    contribution: 89.56,
+    score1: 187.2,
+    score2: 89.56,
+    score3: 89.56,
+    score4: 187.2,
   },
   {
     key: '3',
     index: 3,
-    subject: '金华工会',
-    account: '金华会公众号',
-    title: '稿件标题稿件标题稿件标题稿件标题',
+    subject: '东平工会',
+    account: '东平工会公众号',
+    contribution: 9.56,
+    score1: 17.2,
+    score2: 89.56,
+    score3: 89.56,
+    score4: 18.2,
   },
   {
     key: '4',
     index: 4,
-    subject: '温州工会',
-    account: '温州会公众号',
-    title: '稿件标题稿件标题稿件标题稿件标题',
+    subject: '并州工会',
+    account: '并州工会公众号',
+    contribution: 8.56,
+    score1: 87.2,
+    score2: 89.56,
+    score3: 89.56,
+    score4: 87.2,
   },
   // 更多数据...
 ];
 
-export const PopularRank = () => {
+export const IndexRank = ({updateRankData}) => {
   const [modalVisible, setModalVisible] = useState(false);
   const [rankConfig, setRankConfig] = useState({ switch: false, description: '' });
-  
-  // 2. 获取全局状态的更新方法
-  const { updateSharedData } = useRankStore();
 
   const handleOpenModal = () => {
     setModalVisible(true);
@@ -55,27 +68,28 @@ export const PopularRank = () => {
     setRankConfig(config);
   };
 
-  // 3. 修正函数定义，移除参数中的updateRankData
   const handleGenerateCard = () => {
-    // 爆款榜数据转换
+    // 1. 转换表格数据为卡片所需格式
     const cardFormatData = {
-      title: '公众号爆款稿件榜',
-      subTitle: '月榜 2024.09',
+      title: '融媒体公众号指数榜',
+      subTitle: '镇街榜',
+      period: '周榜 2024.09.02-2024.09.12',
       list: mockTableData.map(item => ({
-        rank: item.index,
-        account: item.account,
-        title: item.title, // 爆款榜需要稿件标题
+        rank: item.index, // 排名对应表格的index
+        account: item.account, // 账号名称
+        score: item.contribution, // 指数值
+        // 模拟趋势（前3名有趋势，其余无）
         trend: item.index <= 3 ? (item.index === 1 ? 'up' : 'down') : ''
       }))
     };
 
-    // 4. 调用全局状态方法，指定类型为"popular"（爆款榜标识）
-    updateSharedData('popular', cardFormatData);
+    // 2. 同步数据到父组件（供第五个标签的卡片使用）
+    updateRankData(cardFormatData);
     
-    // 提示用户切换到榜单图片页
+    // 3. 提示用户已同步
     Modal.success({
       title: '数据已同步',
-      content: '请前往"榜单图片"页面查看爆款榜',
+      content: '请切换到"榜单卡片"标签查看',
     });
   };
 
@@ -83,7 +97,11 @@ export const PopularRank = () => {
     { title: '序号', dataIndex: 'index', key: 'index' },
     { title: '参评主体', dataIndex: 'subject', key: 'subject' },
     { title: '账号名称', dataIndex: 'account', key: 'account' },
-    { title: '稿件标题', dataIndex: 'title', key: 'title' },
+    { title: '贡献指数', dataIndex: 'contribution', key: 'contribution' },
+    { title: '[XXX]得分', dataIndex: 'score1', key: 'score1' },
+    { title: '[XXX]得分', dataIndex: 'score2', key: 'score2' },
+    { title: '[XXX]得分', dataIndex: 'score3', key: 'score3' },
+    { title: '[XXX]得分', dataIndex: 'score4', key: 'score4' },
   ];
 
   return (
@@ -95,6 +113,7 @@ export const PopularRank = () => {
         <Select placeholder="镇街榜" style={{ width: 120 }}>
           <Option value="镇街榜">镇街榜</Option>
         </Select>
+        <RangePicker style={{ width: 240 }} />
         <Button icon={<DownloadOutlined />} type="primary">导出当前榜单</Button>
         <Button icon={<LinkOutlined />} type="default">复制榜单链接</Button>
         <Button 

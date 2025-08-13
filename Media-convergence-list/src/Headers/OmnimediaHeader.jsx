@@ -1,9 +1,11 @@
 import { Layout, Menu } from 'antd';
-import { Link } from 'react-router-dom';
+import { Link,useLocation } from 'react-router-dom';
 
 const { Header } = Layout;
 
 export const OmnimediaHeader = () => {
+  //获取当前路由信息
+  const location = useLocation();
   return (
     <Header style={{ 
         position: 'fixed', 
@@ -19,7 +21,8 @@ export const OmnimediaHeader = () => {
         <Menu
             theme="dark"
             mode="horizontal"
-            defaultSelectedKeys={['/update-rank']}
+            selectedKeys={[location.pathname]}
+            //defaultSelectedKeys={['/update-rank']}
             style={{ flex: 1, justifyContent: 'flex-end', marginRight: 50 }}
         >
             <Menu.Item key="/update-rank">

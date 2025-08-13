@@ -2,7 +2,7 @@ import { Card, Tag } from 'antd';
 import { UpOutlined, DownOutlined, ArrowUpOutlined } from '@ant-design/icons';
 import './RankCards.css';
 
-const PopularRankCard = () => {
+/* const PopularRankCard = () => {
   // 模拟数据
   const rankData = {
     title: '公众号爆款稿件榜',
@@ -14,16 +14,27 @@ const PopularRankCard = () => {
       { rank: 4, account: '公众号名称', title: '稿件名称稿件名称稿件名称...', trend: '' },
       { rank: 5, account: '公众号名称', title: '稿件名称稿件名称稿件名称...', trend: '' },
     ],
-  };
-
+  }; */
+// 从props接收数据
+const PopularRankCard = ({ data }) => {
+  // 如果没有数据，显示默认提示
+  if (!data || !data.list || data.list.length === 0) {
+    return (
+      <Card className="rank-card" bordered={false} style={{ width: 260, padding: 20 }}>
+        <div style={{ textAlign: 'center', color: '#999' }}>
+          暂无数据，请先生成榜单
+        </div>
+      </Card>
+    );
+  }
   return (
     <Card className="rank-card" bordered={false} style={{ width: 320 }}>
       <div className="card-header">
-        <div className="main-title">{rankData.title}</div>
-        <div className="sub-title">{rankData.subTitle}</div>
+        <div className="main-title">{data.title}</div>
+        <div className="sub-title">{data.subTitle}</div>
       </div>
       <div className="rank-list">
-        {rankData.list.map((item, idx) => (
+        {data.list.map((item, idx) => (
           <div className="rank-item" key={idx}>
             <div className="rank-badge" style={{ backgroundColor: badgeColor(idx) }}>
               {item.rank}
